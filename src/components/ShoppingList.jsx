@@ -71,10 +71,18 @@ function ShoppingList() {
     setItems([...items, item]);
   };
 
-  const handleDelete = (index) => {
-    const updatedCheckedItems = [...checkedItems];
-    updatedCheckedItems.splice(index, 1);
-    setCheckedItems(updatedCheckedItems);
+  const handleDelete = (index, isCheckedItem) => {
+    const deletedItem = isCheckedItem ? checkedItems[index] : items[index];
+    const updatedItems = isCheckedItem ? [...checkedItems] : [...items];
+    updatedItems.splice(index, 1);
+
+    if (isCheckedItem) {
+      setCheckedItems(updatedItems);
+    } else {
+      setItems(updatedItems);
+    }
+
+    showToast("success", `${deletedItem.name} has been deleted`);
   };
 
   return (
@@ -83,7 +91,10 @@ function ShoppingList() {
       <div className="bg-white rounded-lg p-4 shadow-md">
         <ul className="list-inside mt-4 mb-4">
           {items.map((item, index) => (
-            <li key={index} className="mb-2 flex items-center justify-between">
+            <li
+              key={index}
+              className="mb-2 flex flex-col sm:flex-row sm:items-center justify-between"
+            >
               <div className="flex items-center">
                 <input
                   type="checkbox"
@@ -100,10 +111,11 @@ function ShoppingList() {
                     type="text"
                     value={editedItem}
                     onChange={(e) => setEditedItem(e.target.value)}
+                    className="mt-2 sm:mt-0 sm:ml-2"
                   />
-                  <div className="flex items-center">
+                  <div className="flex items-center mt-2 sm:mt-0 sm:ml-2">
                     <button
-                      className="ml-2 text-black border-2 border-black font-semibold px-3.5 py-1 rounded-md p-1 bg-blue-300"
+                      className="text-black border-2 border-black font-semibold px-3.5 py-1 rounded-md p-1 bg-blue-300"
                       onClick={() => handleSave(index)}
                     >
                       Save
@@ -113,12 +125,18 @@ function ShoppingList() {
               ) : (
                 <>
                   {!item.checked && (
-                    <div>
+                    <div className="mt-2 sm:mt-0 sm:ml-2">
                       <button
-                        className="ml-2 text-black border-2 border-black font-semibold px-4 py-1 rounded-md p-1 bg-yellow-300"
+                        className="text-black border-2 border-black font-semibold px-4 py-1 m-2 rounded-md p-1 bg-yellow-300"
                         onClick={() => handleEdit(index)}
                       >
                         Edit
+                      </button>
+                      <button
+                        className="text-black border-2 border-black font-semibold px-2 py-1 rounded-md p-1 bg-red-400"
+                        onClick={() => handleDelete(index, false)}
+                      >
+                        Delete
                       </button>
                     </div>
                   )}
@@ -135,7 +153,7 @@ function ShoppingList() {
             {checkedItems.map((item, index) => (
               <li
                 key={index}
-                className="mb-2 flex items-center justify-between"
+                className="mb-2 flex flex-col sm:flex-row sm:items-center justify-between"
               >
                 <div className="flex items-center">
                   <input
@@ -147,10 +165,10 @@ function ShoppingList() {
                     {item.name}
                   </div>
                 </div>
-                <div>
+                <div className="mt-2 sm:mt-0 sm:ml-2">
                   <button
-                    className="ml-2 text-black border-2 border-black font-semibold px-2 py-1 rounded-md p-1 bg-red-400"
-                    onClick={() => handleDelete(index)}
+                    className="text-black border-2 border-black font-semibold px-2 py-1 rounded-md p-1 bg-red-400"
+                    onClick={() => handleDelete(index, true)}
                   >
                     Delete
                   </button>

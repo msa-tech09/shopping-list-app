@@ -20,7 +20,7 @@ function AddItem({ addItem }) {
       />
       <button
         type="submit"
-        className="bg-green-400 border-2 border-black text-black font-semibold px-4 py-2 rounded-md hover:bg-green-600"
+        className="bg-green-400 border-2 border-black text-black font-semibold px-4 py-2 rounded-md hover:bg-green-600 mb-4"
       >
         Add
       </button>
