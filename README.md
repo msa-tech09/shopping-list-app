@@ -1,4 +1,4 @@
-# React Shopping List App
+# Shopping List App
 
 This is a simple React-based shopping list application that allows users to add, edit, check, and delete items. It also provides a notification system to display success and error messages.
 
